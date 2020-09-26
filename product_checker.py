@@ -12,6 +12,8 @@ import urllib.parse
 import random
 from retry import retry
 import os
+import socket
+
 
 ## Logging Config
 logging.basicConfig(format='%(asctime)s :: %(levelname)s :: %(message)s')
@@ -19,6 +21,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 ## Validations
+serverName=socket.gethostname()
 botToken = 'TELEGRAM_BOT_TOKEN'
 botChatId = 'TELEGRAM_BOT_CHAT_ID'
 if botToken not in os.environ or botChatId not in os.environ:
@@ -34,7 +37,7 @@ if (not os.path.isfile(products_file)):
   logger.error(f'Products database {products_file} does not exists.')
   exit(1)
 
-logger.info("Using products.yml as products database.")
+logger.info(f"Using products.yml as products database on server {serverName}.")
 
 def sendMessage(bot_message):
   bot_message = bot_message.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
@@ -47,7 +50,6 @@ def sendMessage(bot_message):
 
   json_response = response.json()
   if json_response["ok"] == False:
-
     logger.error(f'Error sending telegram message: {json_response}')
 
   return json_response
@@ -88,7 +90,7 @@ def check_availability(store, productUrl):
   else:
     logger.error(f'We have a problem scrapping this url: {productUrl}, sending Message')
     logger.error(f'{page.content}')
-    sendMessage(f'Error parsing {productUrl}, please check!')
+    sendMessage(f'Error on server {serverName}, problem parsing {productUrl}, please check!')
     raise Exception('Error Parsing', f'product {productUrl}')
 
   return False
