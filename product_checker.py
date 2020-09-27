@@ -41,8 +41,8 @@ logger.info(f"Using products.yml as products database on server {serverName}.")
 
 def sendMessage(bot_message):
   bot_message = bot_message.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
-  bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
-  bot_chatID = os.environ.get('TELEGRAM_BOT_CHAT_ID')
+  bot_token = os.environ.get(botToken)
+  bot_chatID = os.environ.get(botChatId)
   send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + urllib.parse.quote(bot_message)
 
   response = requests.get(send_text)
@@ -84,9 +84,11 @@ def check_availability(store, productUrl):
 
   raw_availability = doc.xpath(xpath_availability)
   availability = ''.join(raw_availability).strip().replace('\n', '') if raw_availability else None
-  logger.debug(f'Product Availability: {availability}')
+  logger.info(f'Product Availability: {availability}')
   if availability is not None:
-    return availability.lower().find("unavailable") == -1
+    # If is unavailable
+    # return availability.lower().find("unavailable") == -1
+    return availability.lower().find("in stock") != -1
   else:
     logger.error(f'We have a problem scrapping this url: {productUrl}, sending Message')
     logger.error(f'{page.content}')
