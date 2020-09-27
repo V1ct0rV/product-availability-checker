@@ -2,7 +2,7 @@
 
 ## Install  dependencies
 
-`pip3 install schedule requests pyyaml retry --user`
+`pip3 install schedule requests pyyaml lxml retry --user`
 
 ## Configure environment variables
 
