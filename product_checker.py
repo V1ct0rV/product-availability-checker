@@ -84,11 +84,12 @@ def check_availability(store, productUrl):
 
   raw_availability = doc.xpath(xpath_availability)
   availability = ''.join(raw_availability).strip().replace('\n', '') if raw_availability else None
-  logger.info(f'Product Availability: {availability}')
   if availability is not None:
+    logger.info(f'Product Availability: {availability}')
     # If is unavailable
     # return availability.lower().find("unavailable") == -1
-    return availability.lower().find("in stock") != -1
+    # If has the word in the stock and do not has the word unavailable
+    return availability.lower().find("in stock") != -1 and availability.lower().find("unavailable") == -1
   else:
     logger.error(f'We have a problem scrapping this url: {productUrl}, sending Message')
     logger.error(f'{page.content}')
