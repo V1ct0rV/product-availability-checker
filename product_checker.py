@@ -29,15 +29,22 @@ if botToken not in os.environ or botChatId not in os.environ:
   exit(1)
 
 if len(sys.argv) > 1:
-  products_file = sys.argv[1]
+  config_file = sys.argv[1]
 else:
-  products_file = "products.yml"
+  config_file = "config.yml"
 
-if (not os.path.isfile(products_file)):
-  logger.error(f'Products database {products_file} does not exists.')
+if (not os.path.isfile(config_file)):
+  logger.error(f'Products database {config_file} does not exists.')
   exit(1)
 
-logger.info(f"Using products.yml as products database on server {serverName}.")
+logger.info(f"Using config.yml as products database on server {serverName}.")
+with open(config_file) as file:
+  # The FullLoader parameter handles the conversion from YAML
+  # scalar values to Python the dictionary format
+  config = yaml.load(file, Loader=yaml.FullLoader)
+
+  user_agent = config["userAgent"]
+  logger.info(f'Working with user agent: {user_agent}')
 
 def sendMessage(bot_message):
   bot_message = bot_message.replace("_", "\\_").replace("*", "\\*").replace("[", "\\[").replace("`", "\\`")
@@ -60,8 +67,9 @@ def sendAvailableProductMessage(product):
 
 def check_availability(store, productUrl):
   randomInt =random.randint(1, 100)
+  # headers = ({'User-Agent': "Mozilla/5.0 (X11; Linux x86_64{randomInt}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36{randomInt}', 'Accept-Language': 'en-US, en;q=0.5".format(randomInt=randomInt)})
   headers = ({'User-Agent':
-            f'Mozilla/5.0 (X11; Linux x86_64{randomInt}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36',
+            user_agent.format(randomInt=randomInt),
             'Accept-Language': 'en-US, en;q=0.5'})
 
   if store == "Amazon":
@@ -100,16 +108,17 @@ def check_availability(store, productUrl):
 
 # scheduling same code to run multiple
 # times after every 1 minute
-@retry(delay=10, backoff=2, logger=logger, max_delay=300)
+#@retry(delay=10, backoff=2, logger=logger, max_delay=300)
 def job():
   print("-------------------------------------------------------------------------------------------")
-  logger.info("Loading products from {products}".format(products=products_file))
-  with open(products_file) as file:
+  logger.info("Loading products from {products}".format(products=config_file))
+  with open(config_file) as file:
     # The FullLoader parameter handles the conversion from YAML
     # scalar values to Python the dictionary format
-    products = yaml.load(file, Loader=yaml.FullLoader)
+    config = yaml.load(file, Loader=yaml.FullLoader)
 
   logger.info("Starting Tracking....")
+  products = config["products"]
   for store in products:
     i = 0
     total = len(products[store])
