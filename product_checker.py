@@ -108,7 +108,7 @@ def check_availability(store, productUrl):
 
 # scheduling same code to run multiple
 # times after every 1 minute
-#@retry(delay=10, backoff=2, logger=logger, max_delay=300)
+@retry(delay=10, backoff=2, logger=logger, max_delay=300)
 def job():
   print("-------------------------------------------------------------------------------------------")
   logger.info("Loading products from {products}".format(products=config_file))
