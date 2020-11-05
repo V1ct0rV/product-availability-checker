@@ -26,6 +26,16 @@ products:
     # - Url: https://amazon.com/GIGABYTE-GeForce-Graphics-WINDFORCE-GV-N3090EAGLE/dp/B08HJPDJTY
     # - Url: https://amazon.com/ASUS-Graphics-DisplayPort-Military-Grade-Certification/dp/B08HJGNJ81
     # - Url: https://amazon.com/ASUS-Graphics-DisplayPort-Military-Grade-Certification/dp/B08HJLLF7G
+    # RTX 3070
+    - Url: https://amazon.com/dp/B08L8LG4M3
+    - Url: https://amazon.com/dp/B08LW46GH2
+    - Url: https://amazon.com/ASUS-Graphics-DisplayPort-Axial-tech-2-9-Slot/dp/B08L8JNTXQ
+    - Url: https://www.amazon.com/PNY-GeForce-Gaming-Epic-X-Graphics/dp/B08HBJB7YD
+    - Url: https://www.amazon.com/ZOTAC-Graphics-IceStorm-Advanced-ZT-A30700H-10P/dp/B08LF1CWT2
+    - Url: https://www.amazon.com/MSI-GeForce-256-Bit-Architecture-Graphics/dp/B08KWLMZV4
+    - Url: https://www.amazon.com/Gigabyte-Graphics-WINDFORCE-GV-N3070GAMING-OC-8GD/dp/B08KY266MG
+    - Url: https://www.amazon.com/MSI-GeForce-RTX-3070-Architecture/dp/B08KWN2LZG
+    - Url: https://www.amazon.com/ASUS-Graphics-DisplayPort-Axial-tech-2-9-Slot/dp/B08L8JNTXQ
   # NewEgg is not implemented yet...
   # NewEgg:
   #   - Url: https://www.newegg.com/msi-geforce-rtx-3090-rtx-3090-ventus-3x-24g/p/N82E16814137599
